@@ -1,0 +1,17 @@
+{
+  "name": "com.charsui.invokechain",
+  "version": "0.0.1",
+  "displayName": "CharSui\u2018s InvokeChain",
+  "description": "This package provides",
+  "keywords": [
+    "charsui",
+    "invoke",
+    "chain",
+    "invokeChain"
+  ],
+  "author": {
+    "name": "CharSui",
+    "email": "charcharsui@gmail.com",
+    "url": "https://github.com/HikariXP"
+  }
+}
