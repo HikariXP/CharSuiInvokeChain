@@ -1,6 +1,6 @@
 {
   "name": "com.charsui.invokechain",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "displayName": "CharSui\u2018s InvokeChain",
   "description": "This package provides",
   "keywords": [
@@ -14,11 +14,11 @@
     "email": "charcharsui@gmail.com",
     "url": "https://github.com/HikariXP"
   },
-  "samples":[
+  "samples": [
     {
       "displayName": "IAP InvokeChain",
       "description": "Contains sample InvokeChain for get price from server and change it in clientLogic",
-      "path": "Samples~/IAPSample"
+      "path": "Samples/IAPSample"
     }
   ]
 }
