@@ -1,5 +1,4 @@
 ﻿/*
- * Copyright (c) PeroPeroGames Co., Ltd.
  * Author: CharSui
  * Created On: 2024.12.10
  * Description: 为了让调用链可以接收额外的信息进行调用前初始化，定义此接口以让调用链依赖此接口。

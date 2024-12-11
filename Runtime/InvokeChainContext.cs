@@ -1,5 +1,4 @@
 ﻿/*
- * Copyright (c) PeroPeroGames Co., Ltd.
  * Author: CharSui
  * Created On: 2024.12.10
  * Description: 调用链的上下文，

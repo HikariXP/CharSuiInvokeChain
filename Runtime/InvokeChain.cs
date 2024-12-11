@@ -1,5 +1,4 @@
 ﻿/*
- * Copyright (c) PeroPeroGames Co., Ltd.
  * Author: CharSui
  * Created On: 2024.12.10
  * Description: 调用链的管理器，负责调用链的初始化和调用。
@@ -14,7 +13,7 @@
 using System;
 using UnityEngine;
 
-public abstract class InvokeChain<T, U> where T : InvokeChainStage<U> where U : InvokeChainContext, new()
+public abstract class InvokeChain<T> where T : InvokeChainContext, new()
 {
 	/// <summary>
 	/// 是否有调用链正在执行
@@ -24,14 +23,14 @@ public abstract class InvokeChain<T, U> where T : InvokeChainStage<U> where U : 
 	
 	private bool m_IsInited = false;
 
-	private readonly U context;
+	protected readonly T context;
 	
-	protected T[] stages;
+	protected InvokeChainStage<T>[] stages;
 	
 	/// <summary>
 	/// 无论调用链是否成功，都会触发，需要自己在后处理里面根据里面的errorCode进行处理。
 	/// </summary>
-	public Action<U> invokeFinishCallback; 
+	public Action<T> invokeFinishCallback; 
 
 	/// <summary>
 	/// 构造函数中定义是否允许并发执行
@@ -39,7 +38,7 @@ public abstract class InvokeChain<T, U> where T : InvokeChainStage<U> where U : 
 	/// <param name="allowConcurrentExecution"></param>
 	protected InvokeChain()
 	{
-		context = new U();
+		context = new T();
 		
 		StageInitialize();
 	}
@@ -90,7 +89,7 @@ public abstract class InvokeChain<T, U> where T : InvokeChainStage<U> where U : 
 	/// <summary>
 	/// 开始触发调用链
 	/// </summary>
-	public void Invoke()
+	public void Invoke(InvokeData invokedata)
 	{
 		if (!m_IsInited)
 		{
@@ -103,25 +102,39 @@ public abstract class InvokeChain<T, U> where T : InvokeChainStage<U> where U : 
 			Debug.LogError($"[{GetType().Name}]This InvokeChain is Invoking, check your logic");
 			return;
 		}
+		
+		context.Clear();
+		
+		// 将要原料数据填入
+		ContextInitializeByInvokeData(invokedata);
+		
+		// 调用链开始运行
+		StartInvoke();
+	}
 
+	/// <summary>
+	/// 定义如何使用InvokeData对要使用的context进行初始化
+	/// </summary>
+	/// <param name="invokedata"></param>
+	protected abstract void ContextInitializeByInvokeData(InvokeData invokedata);
+
+	/// <summary>
+	/// 开启调用链
+	/// </summary>
+	private void StartInvoke()
+	{
 		m_IsInvoking = true;
 		stages[0].Invoke(context);
 	}
 
-	/// <summary>
-	/// 此处定义一些预输入。比如内购的话，此处就是一个继承InvokeData的结构，比如PurchaseInvokeData，里面存有一个string->productId，而后在子类实现里面去存这个值。
-	/// </summary>
-	/// <param name="invokedata"></param>
-	protected abstract void SetInvokeData(InvokeData invokedata);
-
 	private void InvokeFinish()
 	{
-		Debug.LogError($"[{GetType().Name}]Invoke Finish");
+		Debug.Log($"[{GetType().Name}]Invoke Finish");
 		m_IsInvoking = false;
 		InvokeFinishImplementation(context);
 	}
 
-	protected virtual void InvokeFinishImplementation(U contextArg)
+	protected virtual void InvokeFinishImplementation(T contextArg)
 	{
 		invokeFinishCallback?.Invoke(contextArg);
 	}

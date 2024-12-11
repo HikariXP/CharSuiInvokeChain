@@ -47,3 +47,11 @@
 内购使用的是平台提供的内购，比如GooglePlay。需要从平台获取价格信息后，客户端固定给一个"五折"的优惠，然后再发起购买。在购买的开始和结尾分别有一个对于UI的调用，打开一个转圈圈的遮罩让玩家等待流程。
 
 ### 实现
+
+1.定义一个管理器IAPInvokeChain，继承InvokeChain
+2.定义两个Stage，对应"从平台获取价格"和"客户端固定给个5折"两个处理阶段。比如叫ServerPriceStage和ClientDiscountStage，分别在其InvokeImplementation的实现内写入自己要做的内容
+3.注意！！！，Stage做完自己的逻辑，无论如何，确保逻辑分支都有Finish()的调用，告知此流程执行完毕，如果有错误，则传入自定义的错误码和错误信息。
+4.在IAPInvokeChain的抽象方法DefineStage中，new出两个上述创建的Stage，且将其加入到IAPInvokeChain的stages里面。
+5.由于购买前我们需要知道我们要买什么，所以需要IAPInvokeChain接受一个参数，此环节由InvokeData负责。
+6.新建StringInvokeData，持有一个string的变量，继承InvokeData。
+7.

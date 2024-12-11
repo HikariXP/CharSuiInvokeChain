@@ -1,5 +1,4 @@
 ﻿/*
- * Copyright (c) PeroPeroGames Co., Ltd.
  * Author: CharSui
  * Created On: 2024.12.10
  * Description: 调用链抽象。对于有调用链需求的行为可以继承这个去建立一条调用链
@@ -68,6 +67,8 @@ public abstract class InvokeChainStage<T> : IComparable<InvokeChainStage<T>> whe
 	/// <param name="errorMsg">供开发者看的Log</param>
 	protected void Finish(uint errorCode = 0, string errorMsg = null)
 	{
+		Debug.Log($"[{GetType().Name}]Finish");
+		
 		// 检查上下文信息，如果错误码不等于0，或者错误信息不为空，那么就是有错误
 		context.errorMsg = errorMsg;
 		context.errorCode = errorCode;
@@ -77,14 +78,14 @@ public abstract class InvokeChainStage<T> : IComparable<InvokeChainStage<T>> whe
 		// 如果没有错误，就会继续触发链接的下一个阶段
 		if (!haveError && m_NextStage != null)
 		{
-			Debug.Log($"[{GetType().Name}]Stage excuted success, nextStage is :{m_NextStage.GetType().Name}");
+			Debug.Log($"[{GetType().Name}]Start Invoke NextStage: {m_NextStage.GetType().Name}");
 			m_NextStage.Invoke(context);
 			return;
 		}
 
 		if (haveError)
 		{
-			Debug.LogError($"[{GetType().Name}]Excute with error:{errorMsg}");
+			Debug.LogError($"[{GetType().Name}]Excute with error:[{errorCode}]{errorMsg}");
 		}
 
 		// 结束整个构造链，外部需要检查Context的有效性valid
