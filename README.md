@@ -58,13 +58,13 @@
 ### 实现
 这里举得例子已经在Sample里面有实现，可以直接参考。
 
-1.定义一个管理器IAPInvokeChain，继承InvokeChain
-2.定义两个Stage，对应"从平台获取价格"和"客户端固定给个5折"两个处理阶段。比如叫ServerPriceStage和ClientDiscountStage，分别在其InvokeImplementation的实现内写入自己要做的内容
-3.注意！！！Stage做完自己的逻辑，无论如何，确保逻辑分支都有Finish()的调用，告知此流程执行完毕，如果有错误，则传入自定义的错误码和错误信息。
-4.在IAPInvokeChain的抽象方法DefineStage中，new出两个上述创建的Stage，且将其加入到IAPInvokeChain的stages里面。
-5.由于购买前我们需要知道我们要买什么，所以需要IAPInvokeChain接受一个参数，此环节由InvokeData负责。
-6.新建IAPInvokeData，持有一个string的变量productId，继承InvokeData。
-7.在自己的逻辑里要调用IAPInvokeChain的地方，new一个出来
-8.new一个IAPInvokeData，往productId写入自己的数据
-9.在IAPInvokeChain中的invokeFinishCallback注入自己的callback函数
-10.调用Invoke()，传入给个新建的IAPInvokeData，Have Fun。
+1. 定义一个管理器IAPInvokeChain，继承InvokeChain
+2. 定义两个Stage，对应"从平台获取价格"和"客户端固定给个5折"两个处理阶段。比如叫ServerPriceStage和ClientDiscountStage，分别在其InvokeImplementation的实现内写入自己要做的内容
+3. 注意！！！Stage做完自己的逻辑，无论如何，确保逻辑分支都有Finish()的调用，告知此流程执行完毕，如果有错误，则传入自定义的错误码和错误信息。
+4. 在IAPInvokeChain的抽象方法DefineStage中，new出两个上述创建的Stage，且将其加入到IAPInvokeChain的stages里面。
+5. 由于购买前我们需要知道我们要买什么，所以需要IAPInvokeChain接受一个参数，此环节由InvokeData负责。
+6. 新建IAPInvokeData，持有一个string的变量productId，继承InvokeData。
+7. 在自己的逻辑里要调用IAPInvokeChain的地方，new一个出来
+8. new一个IAPInvokeData，往productId写入自己的数据
+9. 在IAPInvokeChain中的invokeFinishCallback注入自己的callback函数
+10. 调用Invoke()，传入给个新建的IAPInvokeData，Have Fun。
