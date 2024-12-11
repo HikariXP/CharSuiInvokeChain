@@ -18,7 +18,7 @@
     {
       "displayName": "IAP InvokeChain",
       "description": "Contains sample InvokeChain for get price from server and change it in clientLogic",
-      "path": "Samples/IAPSample"
+      "path": "Samples~/IAPSample"
     }
   ]
 }
