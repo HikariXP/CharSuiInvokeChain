@@ -46,13 +46,13 @@ Using a platform's in-app purchase system, like Google Play, you need to get pri
 ### Implementation
 This example is implemented in the sample and can be directly referenced.
 
-1.Define a manager class IAPInvokeChain that inherits InvokeChain.
-2.Define two stages corresponding to "getting platform price" and "client half-price discount," like ServerPriceStage and ClientDiscountStage. Implement your operations in their InvokeImplementation methods.
-3.Ensure that each stage completes its logic with a Finish() call regardless of the logic path, signaling completion. Pass in custom error codes and messages if errors occur.
-4.In the abstract method DefineStage of IAPInvokeChain, create the two stages and add them to the stages array.
-5.Since we need to know what to buy before purchasing, the IAPInvokeChain should accept a parameter, managed by InvokeData.
-6.Create IAPInvokeData, which contains a string variable productId, inheriting InvokeData.
-7.In your logic, instantiate IAPInvokeChain where needed.
-8.Create an IAPInvokeData object, inputting your data into productId.
-9.Inject your callback function into invokeFinishCallback in IAPInvokeChain.
-10.Call Invoke(), passing in the newly created IAPInvokeData, and have fun!
+ 1. Define a manager class IAPInvokeChain that inherits InvokeChain.  
+ 2. Define two stages corresponding to "getting platform price" and "client half-price discount," like ServerPriceStage and ClientDiscountStage. Implement your operations in their InvokeImplementation methods.  
+ 3. Ensure that each stage completes its logic with a Finish() call regardless of the logic path, signaling completion. Pass in custom error codes and messages if errors occur.  
+ 4. In the abstract method DefineStage of IAPInvokeChain, create the two stages and add them to the stages array.  
+ 5. Since we need to know what to buy before purchasing, the IAPInvokeChain should accept a parameter, managed by InvokeData.  
+ 6. Create IAPInvokeData, which contains a string variable productId, inheriting InvokeData.  
+ 7. In your logic, instantiate IAPInvokeChain where needed.  
+ 8. Create an IAPInvokeData object, inputting your data into productId.  
+ 9. Inject your callback function into invokeFinishCallback in IAPInvokeChain.  
+ 10. Call Invoke(), passing in the newly created IAPInvokeData, and have fun!  
